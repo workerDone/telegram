@@ -1,12 +1,16 @@
 {
   "name": "telegram",
   "version": "0.0.0",
+  "author": "Mykola Chmut <chmutkola@mail.com>",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "start-prod": "cross-env NODE_ENV=production node ./bin/www "
   },
   "dependencies": {
+    "config": "^3.2.2",
     "cookie-parser": "~1.4.3",
+    "cross-env": "^5.2.0",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "morgan": "~1.9.0"
