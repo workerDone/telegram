@@ -7,6 +7,7 @@ const config = require('config');
 const Sequelize = require('sequelize');
 const IndexRouter = require('./routes/route');
 const app = express();
+var indexRouter = require('./routes/index');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -24,7 +25,7 @@ sequelize
     .catch(err => {
         console.error('Unable to connect to the database:', err);
     });
-
+    app.use('/', indexRouter);
 app.use('/api', new IndexRouter(sequelize));
 app.get('*', (req, res) => res.render('index'));
 
