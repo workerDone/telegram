@@ -1,10 +1,11 @@
 var express = require('express');
+var indexRouter = require('./index');
 var usersRouter = require('./users');
 
 class IndexRouter extends express.Router {
     constructor(sequelize) {
         super();
-        this.post('/', (res, req) => {
+        this.post('/', (req, res) => {
 
             sequelize.getQueryInterface().showAllSchemas()
                 .then((tableObj) => {
@@ -14,6 +15,8 @@ class IndexRouter extends express.Router {
                     console.log('showAllSchemas ERROR', err);
                 })
         });
+
+        this.use('/', indexRouter);
         this.use('/users', usersRouter);
     }
 }
