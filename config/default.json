@@ -1,11 +1,11 @@
 {
-    "env": "default",
-    "Customer": {
-        "dbConfig": {
+    "dbConfig": [
+        "mykola_chmut",
+        "mykola_chmut",
+        "mykola_chmut",
+        {
             "host": "db4free.net",
-            "user": "mykola_chmut",
-            "password": "mykola_chmut",
-            "database": "mykola_chmut"
+            "dialect": "mysql"
         }
-    }
+    ]
 }

@@ -1,29 +1,21 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var config = require('config');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const config = require('config');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 const Sequelize = require('sequelize');
-
-var app = express();
+const IndexRouter = require('./routes/route');
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-const sequelize = new Sequelize(
-    'mykola_chmut',
-    'mykola_chmut',
-    'mykola_chmut',
-    {
-        host: 'db4free.net',
-        dialect: 'mysql'
-    }
-);
+
+const sequelize = new Sequelize(...config.get('dbConfig'));
+
 sequelize
     .authenticate()
     .then(() => {
@@ -32,18 +24,8 @@ sequelize
     .catch(err => {
         console.error('Unable to connect to the database:', err);
     });
-app.post('/', (res, req) => {
 
-    sequelize.getQueryInterface().showAllSchemas().then((tableObj) => {
-        console.log('// Tables in database', '==========================');
-        console.log(tableObj);
-    })
-        .catch((err) => {
-            console.log('showAllSchemas ERROR', err);
-        })
-    req.send({ text: 'hello' });
-});
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', new IndexRouter(sequelize));
+app.get('*', (req, res) => res.render('index'));
 
 module.exports = app;
